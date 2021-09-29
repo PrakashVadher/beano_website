@@ -55,6 +55,19 @@ define( 'SECURE_AUTH_SALT', ']88:bHX:10v!~t`INoE3)fpj,Ar#N~~%b?Y:$}z5O9mw}/BWW,g
 define( 'LOGGED_IN_SALT',   'O+)M_{+RQm%4=jtb^o?i|zG6}MXT~~z&7an9Dcq}b~UG,b%?y<`ViBo%w$D4(:Ey' );
 define( 'NONCE_SALT',       'w;X*5(f|Rz;#Q}5c$I,1~(~#|7x8}5NJpE4`]$B#Shq`%6DmWvTfAZ$++e-*L/L:' );
 
+
+/* Squareup payment gateway Credentials */
+
+define( 'SANDBOX_APPLICATION_ID','sandbox-sq0idb-203QopUroYryTNVANwzqcA' );
+define( 'SANDBOX_ACCESS_TOKEN', 'EAAAEJsCPzDBM3kNj6KBTjDJpK_OGDiB778-aX58Ab4bqu6bSBbXvnov3S-X4w4S' );
+define( 'SANDBOX_LOCATION_ID', 'L8R2V1HCAP2PQ' );
+
+define( 'LIVE_APPLICATION_ID','' );
+define( 'LIVE_ACCESS_TOKEN', '' );
+define( 'LIVE_LOCATION_ID', '' );
+
+
+
 /**#@-*/
 
 /**
@@ -88,3 +101,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once( ABSPATH . 'wp-settings.php' );
+
+define( 'WP_AUTO_UPDATE_CORE', false );
+
+// define('WP_CACHE', false);
