@@ -7,11 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 ?>
 
 <?php 
-
-echo '<pre>';
-print_r($_REQUEST);
-exit();
-
 session_start();
 if (!isset($_SESSION['count'])) {
   $_SESSION['count'] = 0;
@@ -94,6 +89,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
 	$body .= '<br/><strong>Discount:</strong> '.$discount;
 	$body .= '<br/><br/><strong>Sell Price:</strong> '.$sell_price;
 	
+	
+echo $body;
+exit;
 	//$to = 'orders@beanoshop.co';
 	$to_me = 'prakash.4689.vadher@gmail.com';
 	$subject = 'Beano - Buyer Details';		 

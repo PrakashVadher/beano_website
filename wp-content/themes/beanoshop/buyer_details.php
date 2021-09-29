@@ -416,6 +416,26 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 		<script>
 			$(document).ready(function(){
 				$('#spinner').hide();
+				$('.new-design-form').focusout(function(){
+					customer_name  = $.trim($('#customer_name').val());
+					customer_email = $.trim($('#customer_email').val());
+					customer_phone = $.trim($('#customer_phone').val());
+					if(customer_name.length > 0 && customer_email.length > 0 && customer_phone.length > 0){
+						$('#verify-name').text(customer_name);
+						$('#verify-email').text(customer_email);
+						$('#verify-phone').text(customer_phone);
+						if($('#customer_name').hasClass('basic-info-success') == true && $('#customer_email').hasClass('basic-info-success') == true && $('#customer_phone').hasClass('basic-info-success') == true)
+						{
+								$('.proceed-btn-checkout').show();
+						}else{
+							$('.proceed-btn-checkout').hide();
+						}
+					}
+				});	
+
+				$('#frm-simple-submit').click(function(){
+					$('#frm-customer-details').submit();
+				});			
 			});
 		</script>	
 	<?php } ?>
@@ -593,6 +613,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 								<input type="hidden" name="coupan_code" value="no" id="coupan-code-applied">
 								<input type="hidden" name="action" value="buyer-details">
 								<input type="hidden" name="cafe_url" value="<?php echo $_SESSION['cafe_url'];?>">
+								<input type="hidden" name="order_type" value="<?php echo $order_type;?>">
 								<p class="ensure-txt">Please ensure that all information is accurate so that we can contact you.</p>
 							</form>
 						</div>
@@ -749,6 +770,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 								<input type="hidden" id="card-nonce" name="nonce">
 								<input type="hidden" name="ai" id="ai" value="<?php echo SANDBOX_APPLICATION_ID;?>">
 								<input type="hidden" name="li" id="li" value="<?php echo SANDBOX_LOCATION_ID;?>">
+								<input type="hidden" name="order_type" value="<?php echo $order_type;?>">
 								</form>
 								</div> <!-- end #sq-ccbox -->
 
@@ -796,7 +818,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 		<div class="bottom-cart">
 			<div class="proceed-section w-100 proceed-btn proceed-btn-checkout" style="display: none;">
 				<p class="mobile-only-txt-bottom payment-details-bottom">By clicking, you are agreeing to the <strong>Terms & Conditions.</strong></p>
-				<button class="proceed-btn" id="verify-order" style="display: none;" onclick="">Submit</button>Submit Order</button>
+				<button class="proceed-btn" id="frm-simple-submit" type="submit">Submit</button>Submit Order</button>
 			</div>
 		</div>
 	<?php } ?>
