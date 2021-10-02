@@ -19,6 +19,8 @@ if($_SESSION['count'] > 0){
 	header("Location:".$_POST['cafe_url']);	
 	exit;
 }
+
+$order_type = isset($_REQUEST['order_type']) ? $_REQUEST['order_type'] : ''; 
 ?>
 <?php 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
@@ -43,18 +45,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
 	//$main_price     = !empty(trim(isset($_POST['main_price']))) ? $_POST['main_price'] : '';
 	$discount 		= !empty(trim(isset($_POST['discount_price']))) ? $_POST['discount_price'] : '';
 	$sell_price 	= !empty(trim(isset($_POST['final_price']))) ? $_POST['final_price'] : '';
-	$coupan_code 	= $_POST['coupan_code'];
-	$order_id 	    = $_POST['order_id'];
+	$coupan_code 	= isset($_POST['coupan_code']) ? $_POST['coupan_code'] : '';
 
 	$sessionID = session_id();
 	$cart_data = $wpdb->get_results( "SELECT * FROM beano_custom_cart where session_id= '".$sessionID."' " );
 	$main_price = 0;
+
 	$body = 'Hello Admin,';
 	$body .= '<br/><br/><strong>Order number:</strong> #'.date('dmYhis');
-	$body .= '<br/><br/><strong>Order ID:</strong> #'.$order_id;
 	$body .= '<br/><br/><strong>Name:</strong> '.$name;
 	$body .= '<br/><br/><strong>Email:</strong> '.$email;
 	$body .= '<br/><br/><strong>Phone number:</strong> '.$phone;
+	$body .= '<br/><br/><strong>Order Type:</strong> '.$order_type;
 	$count = 1;
 	$kg = 0;
 	$grams = 0;
@@ -89,14 +91,31 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
 	$body .= '<br/><strong>Discount:</strong> '.$discount;
 	$body .= '<br/><br/><strong>Sell Price:</strong> '.$sell_price;
 	
-	
-echo $body;
-exit;
+	if($order_type == 'pickup'){
+		global $wpdb;
+        $tablename = 'beano_custom_orders'; 
+
+        $wpdb->insert( $tablename, array(
+            'payment_type'      => 'pickup',
+            'customer_name'     => $name, 
+            'customer_email'    => $email,
+            'customer_phone'    => $phone, 
+            'discount'          => $discount,
+            'coupan_code'       => $coupan_code,
+            'total'             => $sell_price,
+            // 'products'          => '',
+            // 'payment_id'        => $payment_array['payment']['id'],
+            'created_at'        => date('Y-m-d H:i:s'), 
+            'updated_at'        => date('Y-m-d H:i:s')
+        ) );
+
+	}
+
 	//$to = 'orders@beanoshop.co';
 	$to_me = 'prakash.4689.vadher@gmail.com';
 	$subject = 'Beano - Buyer Details';		 
 	// Always set content-type when sending HTML email
-	//$headers = "MIME-Version: 1.0" . "\r\n";
+	$headers = "MIME-Version: 1.0" . "\r\n";
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 	$headers .= 'From: '.$cafe_name.' '.$cafe_small_name.' <'.$email.'>' . "\r\n";
 	session_start();

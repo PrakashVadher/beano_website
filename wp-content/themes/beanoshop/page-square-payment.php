@@ -126,6 +126,7 @@ try{
         $tablename = 'beano_custom_orders'; 
 
         $wpdb->insert( $tablename, array(
+            'payment_type'      => 'card',
             'customer_name'     => $customer_name, 
             'customer_email'    => $customer_email,
             'customer_phone'    => $customer_phone, 
