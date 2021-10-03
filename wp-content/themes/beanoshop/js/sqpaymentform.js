@@ -144,7 +144,7 @@ var paymentForm = new SqPaymentForm({
       // POST the nonce form to the payment processing page
       if(nonce){
           $.ajax({
-            url : '../square-payment',
+            url : 'square-payment',
             type: "POST",
             dataType: 'json',
             data: $('#frm-customer-details').serialize(),

@@ -16,7 +16,7 @@ if (!isset($_SESSION['count'])) {
 
 if($_SESSION['count'] > 0){
 	session_destroy();
-	header("Location:".$_POST['cafe_url']);	
+	header("Location:".home_url());	
 	exit;
 }
 
@@ -723,10 +723,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
 			});
 
 			$('#submit-feedback').click(function(){
+				
+				feedback = $('#feedback-text').val();
+				if($.trim(feedback).length <= 0){
+					alert('Please enter your feedback');
+					return false;
+				}
 				$(this).text("Thanks for your feedback!");	
 				$(this).css({'background':'#c4c4c4','color':'#fff'});
 				$(this).off('click');
-				
 				$.ajax({
 					url : "/wp-admin/admin-ajax.php",
 					type: "post",
@@ -882,7 +887,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'buyer-details') {
 
 
 				<div class="mt-30">
-					<a href="<?php echo $_SESSION['cafe_url']; ?>" class="b-homepage"><img src="<?php echo get_template_directory_uri();?>/assets/images/home-icon.png"></a>
+					<a href="<?php echo home_url(); ?>" class="b-homepage"><img src="<?php echo get_template_directory_uri();?>/assets/images/home-icon.png"></a>
 				</div>
 			</div>
 		</div>

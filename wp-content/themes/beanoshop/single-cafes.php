@@ -50,10 +50,12 @@ if(isset($_REQUEST['field_action']) && $_REQUEST['field_action'] == 'add_to_cart
     $session_id     = session_id();
     
     $wpdb->insert( $tablename, array(
+       'product_type' => 'bean', 
        'preffered_bean' => $preffered_bean, 
        'weight'         => $weight,
        'grind'          => $grind, 
        'price'          => $price,
+       'each_price'     => '',
        'remarks'        => $remarks,
        'session_id'     => session_id(), 
        'created_at'     => date('Y-m-d H:i:s'), 
@@ -247,8 +249,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'check_session'){
 											$('.cart-popup-items').removeClass('scrollbar-desktop-section');
 										}
 									}
+                                    grind = result[i]['product_type']=='bean' ? result[i]['grind'] : '$'+result[i]['each_price'];
                                     $('.cart-popup-items').prepend(
-                                    "<div class='float-left w-100 checkout-items remove-section'><div class='w-70 float-left text-left'><h3 class='title cart-title'>"+result[i]['preffered_bean']+"</h3><h4 class='sub-title cart-sub-title'>"+result[i]['grind']+"</h4><h5 class='grms cart-grams'>"+result[i]['weight']+"</h5><div class='float-left w-100'><a href='#' class='close remove-product with-icon' data-id='"+result[i]['id']+"'><img src='<?php echo get_template_directory_uri();?>/images/red-close.png' class='red-close float-left'> <span class='float-left'>Remove</span></a></div></div><div class='w-30 float-right text-right'><h3 class='price cart-price active'>$"+result[i]['price']+"</h3></div></div>");
+                                    "<div class='float-left w-100 checkout-items remove-section'><div class='w-70 float-left text-left'><h3 class='title cart-title'>"+result[i]['preffered_bean']+"</h3><h4 class='sub-title cart-sub-title'>"+grind+"</h4><h5 class='grms cart-grams'>"+result[i]['weight']+"</h5><div class='float-left w-100'><a href='#' class='close remove-product with-icon' data-id='"+result[i]['id']+"'><img src='<?php echo get_template_directory_uri();?>/images/red-close.png' class='red-close float-left'> <span class='float-left'>Remove</span></a></div></div><div class='w-30 float-right text-right'><h3 class='price cart-price active'>$"+result[i]['price']+"</h3></div></div>");
                                 }
                             }else{
                                 $('.empty-cart-body').show();
@@ -591,7 +594,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'check_session'){
                     <a href="#" class="close float-left close-cart-popup">
                         <img src="<?php echo get_template_directory_uri();?>/images/close.png">
                     </a>
-                    <form method="POST" action="<?php echo site_url();?>/buyer-details/" id="checkout-form-data">
+                    <form method="POST" action="<?php echo site_url();?>/addon-page/" id="checkout-form-data">
                         <input type="hidden" name="cafe_name" value="<?php echo $cafe_name; ?>" id="cafe-title" />
                         <input type="hidden" name="cafe_small_name" value="<?php echo $cafe_small_name;?>" id="cafe-sub-title" />
                         <input type="hidden" name="cafe_url" value="<?php echo $current_cafe_url;?>" id="cafe-url" />

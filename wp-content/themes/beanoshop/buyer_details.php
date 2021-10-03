@@ -16,6 +16,7 @@ $sessionID = session_id();
 $cart_data = $wpdb->get_results( "SELECT * FROM beano_custom_cart where session_id= '".$sessionID."' " );
 
 $cart_price = 0;
+
 if( isset($_REQUEST['action']) && $_REQUEST['action'] == 'submit'){
 	
 	$cafe_name      = !empty(trim(isset($_POST['cafe_name']))) ? $_POST['cafe_name'] : '';
@@ -118,7 +119,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 				$('#spinner').show();         
 				cartId =  $(this).data('id');
 				$.ajax({
-					type: "get",
+					type: "post",
 					dataType : 'json',
 					data: {'action':'remove_product','cart_id': cartId},
 					success:function(result){
@@ -494,7 +495,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 										?>
 											<div class="w-70 float-left text-left">
 												<h3 class="title"><?php echo $value->preffered_bean;?></h3>
-												<h4 class="sub-title"><?php echo $value->grind;?></h4>
+												<h4 class="sub-title"><?php if($value->product_type == 'bean') {echo $value->grind; }else{echo '$'.$value->each_price;}?></h4>
 												<h5 class="grms"><?php echo $value->weight?></h5>
 												<div class="float-left w-100">
 												<a href="#" class="close remove-product with-icon" data-id="<?php echo $value->id;?>">
@@ -511,8 +512,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'remove_product'){
 								</div>
 
 								<div class="add-another float-left w-100 mt-0">
-									<span class="mt-0">Add Another Order<a href="<?php echo $_SESSION['cafe_url'];?>" type="button" class="add-btn btn-add-to-cart">
-									<img src="<?php echo get_template_directory_uri();?>/images/add.png"></a></span>
+									<form method="post" action="<?php echo site_url();?>/glasshouse/">
+									<input type="hidden" name="order_type" value="<?php echo $order_type;?>">
+									<span class="mt-0">Add Another Order<button type="submit" class="add-btn btn-add-to-cart">
+									<img src="<?php echo get_template_directory_uri();?>/images/add.png"></button></span>
+									</form>
 								</div>
 								<p class="extra-txt">*Change any coffee bean order <span class="d-block"> by removing the order and adding another order.</span></p>
 								
